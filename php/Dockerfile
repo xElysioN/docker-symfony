@@ -2,14 +2,13 @@ FROM php:5.6.26-fpm
 
 MAINTAINER Maxime Cornet <elysioneh@gmail.com>
 
-RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git unzip
+RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++ git unzip libmcrypt-dev libxml2-dev
 
 # date.timezone & short_open_tag
 ADD symfony.ini /usr/local/etc/php/conf.d/
 
-# Intl
-RUN docker-php-ext-configure intl
-RUN docker-php-ext-install intl
+# Extensions
+RUN docker-php-ext-install intl pdo pdo_mysql mysqli mcrypt xml 
 
 # Xdebug
 RUN pecl install xdebug
