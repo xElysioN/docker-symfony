@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+    db:
+        container_name: sf_db
+        image: mysql:5.7
+        ports:
+          - "3309:3306"
+        environment:
+          - "MYSQL_ROOT_PASSWORD=root"
+          - "MYSQL_USER=symfony"
+          - "MYSQL_PASSWORD=pass"
+        volumes:
+            - /var/www/docker-symfony/database:/var/lib/mysql
+    php:
+        container_name: sf_php
+        build: ./php
+        expose:
+          - "9000"
+        volumes:
+            - /var/www/docker-symfony/symfony:/var/www/symfony
+        links:
+          - db
+    apache:
+        container_name: sf_apache
+        build: ./apache
+        ports:
+          - "80:80"
+        links:
+          - php
+        volumes_from:
+          - php
+        volumes:
+            - /var/www/docker-symfony/apache:/var/log/apache2
+    phpmyadmin:
+        container_name: sf_phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - "8080:80"
+        links:
+            - db
+
