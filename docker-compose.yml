@@ -31,7 +31,7 @@ services:
         volumes_from:
           - php
         volumes:
-            - /var/www/docker-symfony/apache:/var/log/apache2
+            - /var/www/docker-symfony/logs/apache:/var/log/apache2
     phpmyadmin:
         container_name: sf_phpmyadmin
         image: phpmyadmin/phpmyadmin
